@@ -152,12 +152,12 @@ public class Assets {
             //Updates all other assets upon removal of an asset 
             while (results.next()) {
                 enclosing_asset = results.getInt("enclosing_asset");
-            }
-            if (enclosing_asset != null || enclosing_asset <= 0) {
-                statement = connection.prepareStatement("UPDATE assets SET enclosing_asset = ? WHERE asset_id = ?");
-                statement.setNull(1, enclosing_asset);
-                statement.setInt(2, id);
-                statement.executeUpdate();
+                if (enclosing_asset != null || enclosing_asset <= 0) {
+                    statement = connection.prepareStatement("UPDATE assets SET enclosing_asset = ? WHERE asset_id = ?");
+                    statement.setNull(1, enclosing_asset);
+                    statement.setInt(2, id);
+                    statement.executeUpdate();
+                }            
             }
             //End
             
