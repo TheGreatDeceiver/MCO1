@@ -149,15 +149,15 @@ public class Assets {
             statement.setInt(1, id);
             ResultSet results = statement.executeQuery();
             
-            
             //Updates all other assets upon removal of an asset 
             while (results.next()) {
                 enclosing_asset = results.getInt("enclosing_asset");
             }
-            if (enclosing_asset != null) {
+            if (enclosing_asset != null || enclosing_asset <= 0) {
                 statement = connection.prepareStatement("UPDATE assets SET enclosing_asset = ? WHERE asset_id = ?");
                 statement.setNull(1, enclosing_asset);
                 statement.setInt(2, id);
+                statement.executeUpdate();
             }
             //End
             
@@ -167,8 +167,12 @@ public class Assets {
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return 0;        
+            System.out.println("deleting failed");
+            System.out.println("SQL Exception:");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQL state: " + e.getSQLState());
+            return 0;            
         }
         
         connection.close();
@@ -217,6 +221,7 @@ public class Assets {
             connection = connect();
             
             PreparedStatement statement = connection.prepareStatement("UPDATE assets SET status = ? WHERE asset_id = ?");
+            
             
             statement.setString(1, "X");
             statement.setInt(2, id);
