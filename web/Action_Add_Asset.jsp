@@ -25,6 +25,7 @@
             aBean.value = Double.parseDouble(request.getParameter("asset_value"));
             aBean.enclosing_asset = Integer.parseInt(request.getParameter("enclosing_asset"));
             
+            
             Boolean isChecked = false;
             if (request.getParameter("forrent") != null && request.getParameter("forrent").equals("on")){
                 isChecked = true;
@@ -39,5 +40,18 @@
             aBean.recordAsset();
         %>
         <h1>Adding new Asset!</h1>
+        Asset Info<br>
+        Asset Id: <%=aBean.id%><br>
+        Asset Name: <%=aBean.name%><br>
+        Asset Description: <%=aBean.description%><br>
+        Date Acquired: <%=aBean.acquisition_date%><br>
+        For Rent: <%=aBean.forrent%><br>
+        Asset Value: <%=aBean.value%><br>
+        Asset Type: <%=aBean.type_asset%><br>
+        Status: <%=aBean.status%><br>
+        Latitude: <%=aBean.lattitude%><br>
+        Longitude: <%=aBean.longiture%><br>
+        HOA Name: <%=aBean.hoa_name%><br>
+        Enclosing Asset: <%=aBean.enclosing_asset%><br>
     </body>
 </html>

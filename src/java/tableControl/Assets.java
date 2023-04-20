@@ -166,7 +166,7 @@ public class Assets {
         try {
             connection = connect();
             
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM asset WHERE asset_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM assets WHERE asset_id = ?");
             
             statement.setInt(1, id);
             
@@ -237,11 +237,50 @@ public class Assets {
             statement.close();
             connection.close();
             
-            return id;
+            return id + 1;
         } catch (SQLException ex) {
             
             return 0;
         }
+    }
+    
+    public ArrayList<Assets> getAssetList() throws SQLException {
+        
+        ArrayList<Assets> assets = new ArrayList<>();
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM assets");
+                        
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                Assets a = new Assets();
+                a.acquisition_date = results.getString("acquisition_date");
+                a.description = results.getString("asset_description");
+                a.id = results.getInt("asset_id");
+                a.name = results.getString("asset_name");
+                a.value = results.getDouble("asset_value");
+                a.enclosing_asset = results.getInt("enclosing_asset");
+                a.forrent = results.getBoolean("forrent");
+                a.hoa_name = results.getString("hoa_name");
+                a.lattitude = results.getDouble("loc_lattitude");
+                a.longiture = results.getDouble("loc_longiture");
+                a.status = results.getString("status");
+                a.type_asset = results.getString("type_asset");
+                assets.add(a);
+            }
+            
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return assets;        
+        }
+        
+        connection.close();
+        return assets;    
     }
     
     public static void main (String[] args) throws SQLException {

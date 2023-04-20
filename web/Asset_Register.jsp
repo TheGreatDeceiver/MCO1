@@ -52,7 +52,12 @@
                         Latitude: <input type="number" name="loc_lattitude" id="loc_lattitude" step="0.01" required><br>
                         Longitude: <input type="number" name="loc_longiture" id="loc_longiture" step="0.01" required><br>
                         Enter HOA Name: <input type="text" name="hoa_name" id="hoa_name" required><br>
-                        Enclosing Asset (Existing Asset): <input type="number" name="enclosing_asset" id="enclosing_asset" step="1"><br>
+                        Enclosing Asset (Existing Asset): <select name="products" id="products"> 
+                                <option value="0">N/A</option>   
+                                <% for (Assets a : aBean.getAssetList()) {%>
+                                    <option value="<%=a.id%>"><%=a.id%> <%=a.name%></option>                        
+                                <% } %>
+                            </select>
                         </div>
                     <input type="submit" value="Add to database" name="Add to database"/>
                 </div>
