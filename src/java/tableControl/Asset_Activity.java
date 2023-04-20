@@ -12,8 +12,8 @@ import java.util.*;
  */
 public class Asset_Activity {
     
-    public String activity_end;
-    public String activity_start;
+    public String actual_end;
+    public String actual_start;
     public String activity_date;
     public String activity_description;
     public Integer id;
@@ -63,8 +63,8 @@ public class Asset_Activity {
                 statement.setString(3, activity_description);
                 statement.setString(4, tent_start);
                 statement.setString(5, tent_end);
-                statement.setString(6, activity_start);
-                statement.setString(7, activity_end);
+                statement.setString(6, actual_start);
+                statement.setString(7, actual_end);
                 statement.setDouble(8, cost);
                 statement.setString(9, status);
                 
@@ -90,8 +90,8 @@ public class Asset_Activity {
             );
             
             
-            statement.setString(1,activity_end);
-            statement.setString(2,activity_start);
+            statement.setString(1,actual_end);
+            statement.setString(2,actual_start);
             statement.setString(3,activity_date);
             statement.setString(4,activity_description);
             statement.setInt(5,id);
@@ -138,5 +138,29 @@ public class Asset_Activity {
         }
         connection.close();
         return 1;            
+    }
+    
+    public int getID() {
+        try {
+            connection = connect();
+
+            PreparedStatement statement = connection.prepareStatement("SELECT MAX(asset_id) FROM asset_activity");
+
+            ResultSet results = statement.executeQuery();
+
+            int id = -1;
+
+            while (results.next()) {
+                id = results.getInt(1);
+            }
+
+            results.close();
+            statement.close();
+            connection.close();
+
+            return id + 1;
+        } catch (SQLException ex) {
+            return 0;
+        }
     }
 }
