@@ -59,7 +59,7 @@ public class Asset_Activity {
         try {
             connection = connect();
         
-            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO assets VALUES (?,?,?,?,?,?,?,?,?)")) {
+            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO asset_activity VALUES (?,?,?,?,?,?,?,?,?)")) {
                 statement.setInt(1, id);
                 statement.setString(2, activity_date);
                 statement.setString(3, activity_description);
@@ -80,18 +80,65 @@ public class Asset_Activity {
         return 1;
     }
     
-    public int updateActivity() {
-        
+    public int updateActivity() throws SQLException {
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement(
+                            "UPDATE asset_activity" +
+                            "SET act_end = ?, act_start = ?," +
+                            "activity_date = ?, activity_description = ?, asset_id = ?," +
+                            "cost = ?, status = ?, tent_end = ?, tent_start = ?"
+            );
+            
+            
+            statement.setString(1,activity_end);
+            statement.setString(2,activity_start);
+            statement.setString(3,activity_date);
+            statement.setString(4,activity_description);
+            statement.setInt(5,id);
+            statement.setDouble(6,cost);
+            statement.setString(7, status);
+            statement.setString(8,tent_end);
+            statement.setString(9,tent_start);
+            
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;        
+        }
+        connection.close();
         return 1;
     }
     
-    public int completeActivity() {
-        
-        return 1;
+    public int completeActivity() throws SQLException {
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("UPDATE asset_activity SET status = 'C' WHERE asset_activityID = ?");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;        
+        }
+        connection.close();
+        return 1;    
     }
     
-    public int deleteActivity() {
-        
-        return 1;
+    public int deleteActivity() throws SQLException {
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("DELETE asset_activity WHERE asset_activityID = ?");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;        
+        }
+        connection.close();
+        return 1;            
     }
 }

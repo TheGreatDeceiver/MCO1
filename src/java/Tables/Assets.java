@@ -88,26 +88,7 @@ public class Assets {
         connection.close();
         return 1;
     }
-    
-    public int disposeAsset() {
-        try {
-            connection = connect();
-            
-            PreparedStatement statement = connection.prepareStatement("UPDATE assets SET status = ? WHERE asset_id = ?");
-            
-            statement.setString(1, "X");
-            statement.setInt(2, id);
-            
-            statement.executeUpdate();   
-            statement.close();
-            connection.close();
-            return 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return 0;        
-        }
-    }
-    
+       
     public int updateAsset() throws SQLException {
         try {
             connection = connect();
@@ -184,7 +165,7 @@ public class Assets {
         try {
             connection = connect();
             
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM assets WHERE asset_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM asset WHERE asset_id = ?");
             
             statement.setInt(1, id);
             
@@ -216,6 +197,26 @@ public class Assets {
         connection.close();
         return 1;    
     }
+    
+    public int disposeAsset() {
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("UPDATE assets SET status = ? WHERE asset_id = ?");
+            
+            statement.setString(1, "X");
+            statement.setInt(2, id);
+            
+            statement.executeUpdate();   
+            statement.close();
+            connection.close();
+            return 1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;        
+        }
+    }
+
     
     public static void main (String[] args) {
         
