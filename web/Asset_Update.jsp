@@ -53,7 +53,7 @@
                             <option value='O'>Fixtures</option>
                         </select><br>
                         New Asset Value: 
-                        <input type="number" name="asset_value" id="asset_value" step="0.01" required><br>
+                        <input type="number" name="asset_value" id="asset_value" step="0.01" max="100.0" min="0.0" required><br>
                         New Status:     
                         <select name="status" required>
                             <option value='W'>Working Condition</option>
@@ -63,9 +63,9 @@
                             <option value='X'>Disposed</option>
                         </select><br>
                         New Latitude: 
-                        <input type="number" name="loc_lattitude" id="loc_lattitude" step="0.01" required><br>
+                        <input type="number" name="loc_lattitude" id="loc_lattitude" step="0.0001" required><br>
                         New Longitude: 
-                        <input type="number" name="loc_longiture" id="loc_longiture" step="0.01" required><br>
+                        <input type="number" name="loc_longiture" id="loc_longiture" step="0.0001" required><br>
                         New HOA Name: 
                         <select name="hoa_name" id="hoa_name"> 
                             <% for (String a : aBean.getHoaList()) {%>

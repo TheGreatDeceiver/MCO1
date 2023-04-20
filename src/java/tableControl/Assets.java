@@ -4,6 +4,8 @@
  */
 package tableControl;
 import java.sql.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
 /**
  *
@@ -100,28 +102,29 @@ public class Assets {
             connection = connect();
             
             PreparedStatement statement = connection.prepareStatement(
-                            "UPDATE assets" +
-                            "SET acquisition_date = ?, asset_description = ?," +
-                            "asset_id = ?, asset_name = ?, asset_value = ?," +
+                            "UPDATE assets SET acquisition_date = ?, asset_description = ?," +
+                            "asset_name = ?, asset_value = ?," +
                             "enclosing_asset = ?, forrent = ?, hoa_name = ?," +
                             "loc_lattitude = ?, loc_longiture = ?, status = ?," +
-                            "type_asset = ?"
-            );
-            
-            
+                            "type_asset = ? WHERE asset_id = ?"
+            );        
             statement.setString(1,acquisition_date);
             statement.setString(2,description);
-            statement.setInt(3,id);
-            statement.setString(4,name);
-            statement.setDouble(5,value);
-            statement.setInt(6,enclosing_asset);
-            statement.setBoolean(7,forrent);
-            statement.setString(8,hoa_name);
-            statement.setDouble(9,lattitude);
-            statement.setDouble(10,longiture);
-            statement.setString(11,status);
-            statement.setString(12,type_asset);
-            
+            statement.setString(3,name);
+            statement.setDouble(4,value);
+            if (enclosing_asset == 0) {
+                statement.setNull(5, enclosing_asset);
+            } else {
+                statement.setInt(5, enclosing_asset);
+            }            
+            statement.setBoolean(6,forrent);
+            statement.setString(7,hoa_name);
+            statement.setDouble(8,lattitude);
+            statement.setDouble(9,longiture);
+            statement.setString(10,status);
+            statement.setString(11,type_asset);
+            statement.setInt(12,id);
+
             statement.executeUpdate();
             statement.close();
             System.out.println("updating success");
@@ -228,7 +231,7 @@ public class Assets {
         }
     }
 
-     
+    
     
     public int getID() {
         try {
@@ -289,6 +292,54 @@ public class Assets {
             
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM assets");
                         
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                Assets a = new Assets();
+                a.acquisition_date = results.getString("acquisition_date");
+                a.description = results.getString("asset_description");
+                a.id = results.getInt("asset_id");
+                a.name = results.getString("asset_name");
+                a.value = results.getDouble("asset_value");
+                a.enclosing_asset = results.getInt("enclosing_asset");
+                a.forrent = results.getBoolean("forrent");
+                a.hoa_name = results.getString("hoa_name");
+                a.lattitude = results.getDouble("loc_lattitude");
+                a.longiture = results.getDouble("loc_longiture");
+                a.status = results.getString("status");
+                a.type_asset = results.getString("type_asset");
+                assets.add(a);
+            }
+            
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return assets;        
+        }
+        
+        connection.close();
+        return assets;    
+    }
+    
+        public ArrayList<Assets> getAssetList(String column, String filter, Boolean include) throws SQLException {
+        
+        ArrayList<Assets> assets = new ArrayList<>();
+        try {
+            connection = connect();
+            
+            PreparedStatement statement;
+            
+            if (include) {
+                statement = connection.prepareStatement("SELECT * FROM assets WHERE " + column + " = ?");
+            } else {
+                statement = connection.prepareStatement("SELECT * FROM assets WHERE " + column + " <> ?");
+            }
+            //SELECT * FROM assets WHERE status = 'X'
+            
+            statement.setString(1, filter);
+            
             ResultSet results = statement.executeQuery();
             
             while (results.next()) {

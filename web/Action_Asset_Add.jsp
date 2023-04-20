@@ -15,9 +15,7 @@
     </head>
     <body>
         <jsp:useBean id="aBean" class="tableControl.Assets" scope="session" />
-        <%
-            Assets asset = new Assets();
-                        
+        <%                        
             aBean.acquisition_date = request.getParameter("acquisition_date");
             aBean.description = request.getParameter("asset_description");
             aBean.id = aBean.getID();
@@ -59,5 +57,7 @@
         Longitude: <%=aBean.longiture%><br>
         HOA Name: <%=aBean.hoa_name%><br>
         Enclosing Asset: <%=aBean.enclosing_asset%><br>
+        <a href="Asset_Register.jsp">Register another asset?</a><br>
+        <a href="index.jsp">Back to menu</a><br>
     </body>
 </html>
