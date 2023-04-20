@@ -8,15 +8,14 @@ package Tables;
  *
  * @author thegr
  */
-public class Bill {
-
+public class MonthlyDue {
     public int ID;
-    public float deduction;
-    public String date;
-    public String date_generated;
-    public int discounts_awarded;
-    public float monthly_due;
-    public float total_bill;
-    public float unpaid_past_due;
+    public float regularDue;
+    public float pastDue;
+    public float discount;
+    public float penalty;
+    public float household_ID;
+    public float bill_ID;
+    
     
 }
