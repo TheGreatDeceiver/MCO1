@@ -15,6 +15,9 @@
     </head>
     <body>
         <h1 style="text-align: center;">Monthly Dues, Payment, and Billing System</h1>
+        <jsp:useBean id="actBean" class="tableControl.Asset_Activity" scope="session" />
+        <jsp:useBean id="aBean" class="tableControl.Assets" scope="session" />
+        <jsp:useBean id="transBean" class="tableControl.Asset_Trans" scope="session" />
         <div style="display: flex; justify-content: space-between;">
             <a href ="Asset_Register.jsp" style="text-align: center;">    Register an Asset</a><br>
             <a href ="Asset_Update.jsp" style="text-align: center;">    Update an Asset</a><br>
@@ -26,6 +29,52 @@
             <a href ="Act_Delete.jsp" style="text-align: center;">    Delete Asset Activity</a><br>
         </div>
         <h2 style="text-align: center;">Update Activity Information</h2>
-        
+        <form name="Asset Info" action="Action_Activity_Add.jsp" method="POST" style="text-align: center">
+            <div style="display: flex; justify-content: center;">
+                <div style="border: 1px solid black; padding: 20px;">
+                    <div style="text-align: left;">
+                        Asset ID :
+                        <select name="asset_id" id="asset_id"> 
+                            <% for (Asset_Activity a : actBean.getAssetActivityList()) {%>
+                                <option value="<%=a.id%>, <%=a.activity_date%>"><%=a.id%> | <%=a.activity_date%></option>                        
+                            <% } %>
+                        </select><br>  
+                        Authorizing Officer:
+                        <select name="officer" id="officer"> 
+                            <% for (String a : transBean.getOfficers()) {%>
+                                <option value="<%=a%>"><%=a%></option>                        
+                            <% } %>
+                        </select>  
+                        Activity Date: 
+                        <input type="date" name="acquisition_date" id="activity_date" required><br>
+                        Activity Description: 
+                        <input type="text" name="asset_description" id="activity_description"><br>
+                        Tentative Start: 
+                        <input type="date" name="acquisition_date" id="tent_start">
+                        Tentative End 
+                        <input type="date" name="acquisition_date" id="tent_end"><br>
+                        Actual Start: 
+                        <input type="date" name="acquisition_date" id="act_start">
+                        Actual End 
+                        <input type="date" name="acquisition_date" id="act_end"><br>
+                        Cost: 
+                        <input type="number" name="asset_value" id="cost" step="0.01" max="9999999.99" min="0.0">
+                        OR Number: 
+                        <<select name="or_num" id="or_num"> 
+                            <% for (String a : actBean.getORNums()) {%>
+                                <option value="<%=a%>"><%=a%></option>                        
+                            <% } %>
+                        </select>   
+                        Status:     
+                        <select name="status" required>
+                            <option value='S'>Scheduled</option>
+                            <option value='O'>On-Going</option>
+                            <option value='C'>Completed</option>
+                        </select><br>
+                    </div>
+                    <input type="submit" value="Add Asset Activity" name="Add Asset Activity"/>
+                </div>
+            </div>
+        </form>    
     </body>
 </html>
