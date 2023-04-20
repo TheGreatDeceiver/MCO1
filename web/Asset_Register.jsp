@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.sql.*, java.util.*, Tables.*" %>
+<%@page import="java.sql.*, java.util.*, tableControl.*" %>
 
 <!DOCTYPE html>
 <html>
@@ -15,6 +15,7 @@
     </head>
     <body>
         <h1 style="text-align: center;">Monthly Dues, Payment, and Billing System</h1>
+        <jsp:useBean id="aBean" class="tableControl.Assets" scope="session" />
         <div style="display: flex; justify-content: space-between;">
             <a>    Register an Asset</a><br>
             <a href ="Asset_Update.jsp" style="text-align: center;">    Update an Asset</a><br>
@@ -26,29 +27,34 @@
             <a href ="Act_Delete.jsp" style="text-align: center;">    Delete Asset Activity</a><br>
         </div>
         <h2 style="text-align: center;">Register Asset</h2>
-        <form name="selectproduct" action="recordasset.jsp" method="POST" style="text-align: center">
+        <form name="Asset Info" action="Action_Add_Asset.jsp" method="POST" style="text-align: center">
             <div style="display: flex; justify-content: center;">
                 <div style="border: 1px solid black; padding: 20px;">
                     <div style="text-align: left;">
-                                            Asset Name — <input type="text" name="asset_name" id="asset_name"><br>
-                    Asset Description: <input type="text" name="asset_description" id="asset_description"><br>
-                    Acquisition Date: <input type="date" name="acquisition_date" id="acquisition_date"><br>
-                    For Rent: <input type="checkbox" name="forrent" id="forrent"><br>
-                    Asset Type: <input type="text" name="type_asset" id="type_asset"><br>
-                    Asset Value: <input type="text" name="asset_value" id="asset_value"><br>
-                    Status:     <select name="status">
-                        <option value="W">Working Condition</option>
-                        <option value="D">Deteriorated</option>
-                        <option value="P">For Repair</option>
-                        <option value="S">For Disposal</option>
-                        <option value="X">Disposed</option>
-                     </select><br>
-                    Lattitude: <input type="number" name="loc_lattitude" id="loc_lattitude"><br>
-                    Longitude: <input type="number" name="loc_longitude" id="loc_longitude"><br>
-                    Enter HOA Name: <input type="text" name="hoa_name" id="hoa_name"><br>
-                    Enclosing Asset (Existing Asset): <input type="number" name="enclosing_asset" id="enclosing_asset"><br>
-                    </div>
-                    <input type="submit" value="Add to database" name="Add to database" />
+                        Asset Name: <input type="text" name="asset_name" id="asset_name" required><br>
+                        Asset Description: <input type="text" name="asset_description" id="asset_description" required><br>
+                        Acquisition Date: <input type="date" name="acquisition_date" id="acquisition_date" required><br>
+                        For Rent: <input type="checkbox" name="forrent" id="forrent" required><br>
+                        Asset Type: <select name="type_asset" required>
+                            <option value="W">Property</option>
+                            <option value="D">Equipment</option>
+                            <option value="P">Furniture</option>
+                            <option value="S">Fixtures</option>
+                        </select><br>
+                        Asset Value: <input type="number" name="asset_value" id="asset_value" step="0.01" required><br>
+                        Status:     <select name="status" required>
+                            <option value="W">Working Condition</option>
+                            <option value="D">Deteriorated</option>
+                            <option value="P">For Repair</option>
+                            <option value="S">For Disposal</option>
+                            <option value="X">Disposed</option>
+                        </select><br>
+                        Latitude: <input type="number" name="loc_lattitude" id="loc_lattitude" step="0.01" required><br>
+                        Longitude: <input type="number" name="loc_longiture" id="loc_longiture" step="0.01" required><br>
+                        Enter HOA Name: <input type="text" name="hoa_name" id="hoa_name" required><br>
+                        Enclosing Asset (Existing Asset): <input type="number" name="enclosing_asset" id="enclosing_asset" step="1"><br>
+                        </div>
+                    <input type="submit" value="Add to database" name="Add to database"/>
                 </div>
             </div>
         </form>

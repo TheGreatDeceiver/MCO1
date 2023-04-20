@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.sql.*, java.util.*, Tables.*" %>
+<%@page import="java.sql.*, java.util.*, tableControl.*" %>
 
 <!DOCTYPE html>
 <html>

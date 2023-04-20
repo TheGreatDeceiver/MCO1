@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Tables;
+package tableControl;
 import java.sql.*;
 import java.util.*;
 /**
@@ -46,11 +46,12 @@ public class Assets {
         }
         
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=12345678");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=Azyneth2142473787!");
             System.out.println("Connection Successful");
             connected = true;
             return connection;
         } catch (SQLException e) {
+            System.out.println("Connection Unsuccessful");
             connected = false;
             return null;
         }
@@ -218,7 +219,42 @@ public class Assets {
     }
 
     
-    public static void main (String[] args) {
-        
+    public int getID() {
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("SELECT MAX(asset_id) FROM assets");
+            
+            ResultSet results = statement.executeQuery();
+            
+            int id = -1;
+            
+            while (results.next()) {
+                id = results.getInt(1);
+            }
+            
+            results.close();
+            statement.close();
+            connection.close();
+            
+            return id;
+        } catch (SQLException ex) {
+            
+            return 0;
+        }
+    }
+    
+    public static void main (String[] args) throws SQLException {
+        /**try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=Azyneth2142473787!");
+            System.out.println("Connection Successful");
+        } catch (SQLException e) {
+            System.out.println("Connection Unsuccessful");
+            System.out.println("SQL Exception:");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQL state: " + e.getSQLState());           
+        }
+        System.out.println("Wa Ta Hell");*/
     }
 }
