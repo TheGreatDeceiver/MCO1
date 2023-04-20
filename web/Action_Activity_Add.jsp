@@ -17,12 +17,13 @@
         <jsp:useBean id="actBean" class="tableControl.Asset_Activity" scope="session"/>
         <h1>Hello World!</h1>
         <%
+            actBean.ornum = actBean.getNewORNumber();
             actBean.act_end = request.getParameter("act_end");
             actBean.act_start = request.getParameter("act_start");
             actBean.activity_date = request.getParameter("activity_date");
             actBean.activity_description = request.getParameter("activity_description");
             
-            if (request.getParameter("cost").isBlank()) {
+            if (request.getParameter("cost") == null || request.getParameter("cost").isBlank()) {
                 actBean.cost = 0.d;
             } else {
                 actBean.cost = Double.parseDouble(request.getParameter("cost"));
@@ -32,10 +33,12 @@
             actBean.status = request.getParameter("status");
             actBean.tent_end = request.getParameter("tent_end");
             actBean.tent_start = request.getParameter("tent_start");
+            actBean.officer = Integer.parseInt(request.getParameter("officer"));
             
             actBean.addActivity();
         %>
         <h1>Adding new Asset Activity!</h1>
+        OR NUMBER REF: <%=actBean.ornum%><br>
         Asset Activity Info<br>
         Asset Id: <%=actBean.id%><br>
         Activity Date <%=actBean.activity_date%><br>

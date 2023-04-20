@@ -28,7 +28,7 @@ public class Asset_Trans {
     private Boolean connected;
     private Connection connection;
     
-    Asset_Trans() {}
+    public Asset_Trans() {}
     
     private Connection connect() throws SQLException {
         Connection connection;
@@ -55,8 +55,12 @@ public class Asset_Trans {
     public int addTransaction() throws SQLException {
         try {
             connection = connect();
-        
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO asset_transactions VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO ref_ornumbers VALUES (?)");
+            statement.setInt(1, ornum);
+            statement.executeUpdate();
+
+            statement = connection.prepareStatement("INSERT INTO asset_transactions VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             statement.setInt(1, id);
             statement.setString(2, transaction_date);
             statement.setInt(3, trans_hoid);
@@ -67,7 +71,7 @@ public class Asset_Trans {
             statement.setNull(8, 0);
             statement.setNull(9, 0);
             statement.setInt(10, ornum);
-            statement.setString(11, transaction_type);
+            statement.setString(11, "A");
             
             statement.executeUpdate();
 
@@ -86,16 +90,15 @@ public class Asset_Trans {
             PreparedStatement statement = connection.prepareStatement(
                             "UPDATE asset_transaction " +
                             "SET trans_hoid = ?, trans_position = ?, " +
-                            "trans_electiondate = ?," +
-                            "ornum = ? WHERE asset_id = ? AND transaction_date = ?"
+                            "trans_electiondate = ?" +
+                            " WHERE asset_id = ? AND transaction_date = ?"
             );
 
             statement.setInt(1, trans_hoid);
             statement.setString(2, trans_position);
             statement.setString(3, trans_electiondate);
-            statement.setInt(4, ornum);
-            statement.setInt(5, id);
-            statement.setString(6, transaction_date);
+            statement.setInt(4, id);
+            statement.setString(5, transaction_date);
             
             statement.executeUpdate();
             statement.close();

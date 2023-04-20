@@ -64,24 +64,29 @@ public class Asset_Activity {
         try {
             Asset_Trans trans = new Asset_Trans();
             connection = connect();
-        
+            
+            trans.id = id;
+            trans.transaction_date = activity_date;
+            trans.ornum = ornum;
+            trans.setOfficer(officer, false);
+            
+            
+            trans.addTransaction();
+            
+            
             PreparedStatement statement = connection.prepareStatement("INSERT INTO asset_activity VALUES (?,?,?,?,?,?,?,?,?)");
             statement.setInt(1, id);
             statement.setString(2, activity_date);
             statement.setString(3, activity_description);
-            statement.setString(4, tent_start);
-            statement.setString(5, tent_end);
-            statement.setString(6, act_start);
-            statement.setString(7, act_end);
+            statement.setNull(4, 0);
+            statement.setNull(5, 0);
+            statement.setNull(6, 0);
+            statement.setNull(7, 0);
             statement.setDouble(8, cost);
             statement.setString(9, status);
             statement.executeUpdate();
             
-            trans.id = id;
-            trans.transaction_date = activity_date;
-            trans.setOfficer(officer, false);
-
-            trans.addTransaction();            
+        
             
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -96,36 +101,39 @@ public class Asset_Activity {
             Asset_Trans trans = new Asset_Trans();
             connection = connect();
             
+            trans.id = id;
+            trans.transaction_date = activity_date;
+            trans.ornum = ornum;
+            trans.setOfficer(officer, false);
+
+            trans.updateTransaction();
+            
             PreparedStatement statement = connection.prepareStatement(
-                            "UPDATE asset_activity" +
+                            "UPDATE asset_activity " +
                             "SET act_end = ?, act_start = ?," +
-                            "activity_date = ?, activity_description = ?," +
-                            "cost = ?, status = ?, tent_end = ?, tent_start = ? " + 
-                            "WHERE asset_id = ?"
+                            "activity_description = ?," +
+                            "cost = ?, status = ?, tent_end = ?, tent_start = ?, " +
+                            "act_end = ?, act_start = ? " +
+                            "WHERE asset_id = ? AND activity_date = ?"
             );
             
             
             statement.setString(1,act_end);
             statement.setString(2,act_start);
-            statement.setString(3,activity_date);
-            statement.setString(4,activity_description);
-            statement.setDouble(5,cost);
-            statement.setString(6, status);
-            statement.setString(7,tent_end);
-            statement.setString(8,tent_start);
-            statement.setInt(9,id);
-            
-            
+            statement.setString(3,activity_description);
+            statement.setDouble(4,cost);
+            statement.setString(5, status);
+            statement.setString(6,tent_end);
+            statement.setString(7,tent_start);
+            statement.setString(8,act_end);
+            statement.setString(9,act_start);
+            statement.setInt(10,id);
+            statement.setString(11,activity_date);
             
             statement.executeUpdate();
             statement.close();
             
-            trans.id = id;
-            trans.transaction_date = activity_date;
-            trans.setOfficer(officer, false);
-            trans.setOfficer(approving_officer, true);
 
-            trans.updateTransaction();
             
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -139,8 +147,9 @@ public class Asset_Activity {
         try {
             connection = connect();
             
-            PreparedStatement statement = connection.prepareStatement("UPDATE asset_activity SET status = 'C' WHERE asset_activityID = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE asset_activity SET status = 'C' WHERE asset_id = ? AND activity_date = ?");
             statement.setInt(1, id);
+            statement.setString(2, activity_date);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
@@ -154,24 +163,10 @@ public class Asset_Activity {
     public int deleteActivity(Boolean presidentApproval) throws SQLException {
         try {
             connection = connect();
-            PreparedStatement statement;
-            if (presidentApproval) {
-                statement = connection.prepareStatement("DELETE asset_activity WHERE asset_id = ? AND transaction_date = ?");
-                statement.setInt(1, id);
-                statement.setString(2, activity_date);
-                
-                statement.executeUpdate();
-                
-                statement = connection.prepareStatement("DELETE asset_transaction WHERE asset_id = ? AND transaction_date = ?");
-                statement.setInt(1, id);
-                statement.setString(2, activity_date);
-                
-                statement.executeUpdate();
-            } else {
-                statement = connection.prepareStatement("UPDATE asset_transaction SET isdeleted = true WHERE asset_id = ? AND transaction_date = ?");
-                statement.executeUpdate();
-            }
-
+            PreparedStatement statement = connection.prepareStatement("UPDATE asset_transactions SET isdeleted = 1 WHERE asset_id = ? AND transaction_date = ?");
+            statement.setInt(1, id);
+            statement.setString(2, activity_date);
+            statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -216,6 +211,114 @@ public class Asset_Activity {
         return assets;     
     }
     
+    public ArrayList<Asset_Activity> getDeletableActivities() throws SQLException {
+        ArrayList<Asset_Activity> assets = new ArrayList<>();
+        try {
+            connection = connect();
+            
+            PreparedStatement statement;
+            
+
+            statement = connection.prepareStatement(
+                    "SELECT * FROM asset_activity act LEFT JOIN " + 
+                    "asset_transactions trans ON act.asset_id = trans.asset_id AND " +
+                    "act.activity_date = trans.transaction_date WHERE trans.isdeleted = 0"
+            );
+
+            
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                Asset_Activity a = new Asset_Activity();
+                a.act_end = results.getString("act_end");
+                a.act_start = results.getString("act_start");
+                a.activity_date = results.getString("activity_date");
+                a.activity_description = results.getString("activity_description");
+                a.id = results.getInt("asset_id");
+                a.cost = results.getDouble("cost");
+                a.status = results.getString("status");
+                a.tent_end = results.getString("tent_end");
+                a.tent_start = results.getString("tent_start");
+                assets.add(a);
+            }
+            
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return assets;        
+        }
+        
+        connection.close();
+        return assets;     
+    }
+    
+    public ArrayList<Asset_Activity> getAssetActivityList(String column, String filter, Boolean include) throws SQLException {
+        ArrayList<Asset_Activity> assets = new ArrayList<>();
+        try {
+            connection = connect();
+            
+            PreparedStatement statement;
+            
+            if (include) {
+                statement = connection.prepareStatement("SELECT * FROM asset_activity WHERE " + column + " = ?");
+            } else {
+                statement = connection.prepareStatement("SELECT * FROM asset_activity WHERE " + column + " <> ?");
+            }
+            statement.setString(1, filter);
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                Asset_Activity a = new Asset_Activity();
+                a.act_end = results.getString("act_end");
+                a.act_start = results.getString("act_start");
+                a.activity_date = results.getString("activity_date");
+                a.activity_description = results.getString("activity_description");
+                a.id = results.getInt("asset_id");
+                a.cost = results.getDouble("cost");
+                a.status = results.getString("status");
+                a.tent_end = results.getString("tent_end");
+                a.tent_start = results.getString("tent_start");
+                assets.add(a);
+            }
+            
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return assets;        
+        }
+        
+        connection.close();
+        return assets;     
+    }
+
+    public int getNewORNumber() {
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("SELECT MAX(ornum) FROM ref_ornumbers");
+            
+            ResultSet results = statement.executeQuery();
+            
+            int id = -1;
+            
+            while (results.next()) {
+                id = results.getInt(1);
+            }
+            
+            results.close();
+            statement.close();
+            connection.close();
+            
+            return id + 1;
+        } catch (SQLException ex) {
+            return 0;
+        }
+    }
+
     public ArrayList<String> getORNums () throws SQLException {
         ArrayList<String> assets = new ArrayList<>();
         try {

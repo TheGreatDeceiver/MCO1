@@ -9,9 +9,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Asset Activity Completed</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <jsp:useBean id="actBean" class="tableControl.Asset_Activity" scope="session"/>
+        <h1>Asset Activity Marked as Complete!</h1>
+        <%
+            String selectedOption = request.getParameter("asset_id");
+            String[] values = selectedOption.split(",");
+            String value1 = values[0];
+            String value2 = values[1];
+            actBean.id = Integer.parseInt(value1);
+            actBean.activity_date = value2;
+                        
+            actBean.completeActivity();
+        %>
+        <a href="Act_Complete.jsp">Complete another asset activity?</a><br>
+        <a href="index.jsp">Back to menu</a><br>
     </body>
 </html>

@@ -26,7 +26,7 @@
             actBean.activity_date = value2;
             actBean.activity_description = request.getParameter("activity_description");
             
-            if (request.getParameter("cost").isBlank()) {
+            if (request.getParameter("cost") == null || request.getParameter("cost").isBlank()) {
                 actBean.cost = 0.d;
             } else {
                 actBean.cost = Double.parseDouble(request.getParameter("cost"));
@@ -36,7 +36,8 @@
             actBean.status = request.getParameter("status");
             actBean.tent_end = request.getParameter("tent_end");
             actBean.tent_start = request.getParameter("tent_start");
-            
+            actBean.officer = Integer.parseInt(request.getParameter("officer"));
+
             actBean.updateActivity();
         %>
         <h1>Adding new Asset Activity!</h1>
@@ -50,7 +51,7 @@
         Actual End: <%=actBean.act_end%><br>
         Cost: <%=actBean.cost%><br>
         Status: <%=actBean.status%><br>
-        <a href="Act_Record.jsp">Record another asset activity?</a><br>
+        <a href="Act_Update.jsp">Update another asset activity?</a><br>
         <a href="index.jsp">Back to menu</a><br>
     </body>
 </html>

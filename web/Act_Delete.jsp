@@ -15,6 +15,7 @@
     </head>
     <body>
         <h1 style="text-align: center;">Monthly Dues, Payment, and Billing System</h1>
+        <jsp:useBean id="actBean" class="tableControl.Asset_Activity" scope="session" />
         <div style="display: flex; justify-content: space-between;">
             <a href ="Asset_Register.jsp" style="text-align: center;">    Register an Asset</a><br>
             <a href ="Asset_Update.jsp" style="text-align: center;">    Update an Asset</a><br>
@@ -26,5 +27,22 @@
             <a>    Delete Asset Activity</a><br>
         </div>
         <h2 style="text-align: center;">Delete Activity</h2>
+        <form name="Asset Info" action="Action_Activity_Delete.jsp" method="POST" style="text-align: center">
+            <div style="display: flex; justify-content: center;">
+                <div style="border: 1px solid black; padding: 20px;">
+                    <div style="text-align: left;">
+                        Asset ID :
+                        <select name="asset_id" id="asset_id"> 
+                            <% for (Asset_Activity a : actBean.getDeletableActivities()) {%>
+                                <option value="<%=a.id%>, <%=a.activity_date%>"><%=a.id%> | <%=a.activity_date%> | <%=a.activity_description%></option>                        
+                            <% } %>
+                        </select><br>
+                        President Permission: 
+                        <input type="checkbox" name="permission" id="permission" required><br>   
+                    </div>
+                    <input type="submit" value="Delete Asset Activity" name="Delect Asset Activity"/>
+                </div>
+            </div>
+        </form>
     </body>
 </html>
