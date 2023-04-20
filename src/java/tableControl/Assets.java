@@ -323,8 +323,52 @@ public class Assets {
         return assets;    
     }
     
-        public ArrayList<Assets> getAssetList(String column, String filter, Boolean include) throws SQLException {
+    public ArrayList<Assets> getDeletableAssetList() throws SQLException {
         
+        ArrayList<Assets> assets = new ArrayList<>();
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM assets " + 
+                "WHERE NOT EXISTS (" +
+                "SELECT * FROM asset_activity WHERE assets.asset_id = asset_activity.asset_id) " +
+                "AND NOT EXISTS (" +
+                "SELECT * FROM asset_rentals WHERE assets.asset_id = asset_rentals.asset_id)"    
+            );
+                        
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                Assets a = new Assets();
+                a.acquisition_date = results.getString("acquisition_date");
+                a.description = results.getString("asset_description");
+                a.id = results.getInt("asset_id");
+                a.name = results.getString("asset_name");
+                a.value = results.getDouble("asset_value");
+                a.enclosing_asset = results.getInt("enclosing_asset");
+                a.forrent = results.getBoolean("forrent");
+                a.hoa_name = results.getString("hoa_name");
+                a.lattitude = results.getDouble("loc_lattitude");
+                a.longiture = results.getDouble("loc_longiture");
+                a.status = results.getString("status");
+                a.type_asset = results.getString("type_asset");
+                assets.add(a);
+            }
+            
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return assets;        
+        }
+        
+        connection.close();
+        return assets;    
+    }
+    
+    public ArrayList<Assets> getAssetList(String column, String filter, Boolean include) throws SQLException { 
         ArrayList<Assets> assets = new ArrayList<>();
         try {
             connection = connect();
@@ -368,7 +412,7 @@ public class Assets {
         }
         
         connection.close();
-        return assets;    
+        return assets;
     }
     
     public static void main (String[] args) throws SQLException {

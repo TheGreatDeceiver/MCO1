@@ -32,7 +32,7 @@
                 <div style="border: 1px solid black; padding: 20px;">
                 Asset ID: 
                 <select name="asset_id" id="asset_id"> 
-                    <% for (Assets a : aBean.getAssetList()) {%>
+                    <% for (Assets a : aBean.getDeletableAssetList()) {%>
                         <option value="<%=a.id%>"><%=a.id%> <%=a.name%></option>                        
                     <% } %>
                 </select><br>

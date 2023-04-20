@@ -53,7 +53,7 @@
                             <option value='O'>Fixtures</option>
                         </select><br>
                         New Asset Value: 
-                        <input type="number" name="asset_value" id="asset_value" step="0.01" max="100.0" min="0.0" required><br>
+                        <input type="number" name="asset_value" id="asset_value" step="0.01" max="100000.0" min="0.0" required><br>
                         New Status:     
                         <select name="status" required>
                             <option value='W'>Working Condition</option>

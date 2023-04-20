@@ -22,8 +22,6 @@ public class Asset_Activity {
     public String tent_end;
     public String tent_start;
     
-    
-    
     private Boolean connected;
     private Connection connection;
     
@@ -45,7 +43,7 @@ public class Asset_Activity {
         }
         
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=12345678");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=Azyneth2142473787!");
             System.out.println("Connection Successful");
             connected = true;
             return connection;
