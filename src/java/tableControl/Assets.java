@@ -62,30 +62,35 @@ public class Assets {
         try {
             connection = connect();
         
-            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO assets VALUES (?,?,?,?,?,?,?,?,?,?,?,?)")) {
-                statement.setInt(1, id);
-                statement.setString(2, name);
-                statement.setString(3, description);
-                statement.setString(4, acquisition_date);
-                statement.setBoolean(5, forrent);
-                statement.setDouble(6, value);
-                statement.setString(7, type_asset);
-                statement.setString(8, status);
-                statement.setDouble(9, lattitude);
-                statement.setDouble(10, longiture);
-                statement.setString(11, hoa_name);
-                if (enclosing_asset == 0) {
-                    statement.setNull(12, enclosing_asset);
-                } else {
-                    statement.setInt(12, enclosing_asset);
-                }
-                
-                statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO assets VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            statement.setInt(1, id);
+            statement.setString(2, name);
+            statement.setString(3, description);
+            statement.setString(4, acquisition_date);
+            statement.setBoolean(5, forrent);
+            statement.setDouble(6, value);
+            statement.setString(7, type_asset);
+            statement.setString(8, status);
+            statement.setDouble(9, lattitude);
+            statement.setDouble(10, longiture);
+            statement.setString(11, hoa_name);
+            if (enclosing_asset == 0) {
+                statement.setNull(12, enclosing_asset);
+            } else {
+                statement.setInt(12, enclosing_asset);
             }
+
+            statement.executeUpdate();
+            
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("recording failed");
+            System.out.println("SQL Exception:");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQL state: " + e.getSQLState());    
             return 0;
         }
+        System.out.println("recording success");
         connection.close();
         return 1;
     }
@@ -119,9 +124,14 @@ public class Assets {
             
             statement.executeUpdate();
             statement.close();
+            System.out.println("updating success");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return 0;        
+            System.out.println("updating failed");
+            System.out.println("SQL Exception:");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQL state: " + e.getSQLState());
+            return 0;
         }
         connection.close();
         return 1;
@@ -218,6 +228,7 @@ public class Assets {
         }
     }
 
+     
     
     public int getID() {
         try {
@@ -242,6 +253,32 @@ public class Assets {
             
             return 0;
         }
+    }
+    
+    public ArrayList<String> getHoaList() throws SQLException {
+        ArrayList<String> assets = new ArrayList<>();
+        try {
+            connection = connect();
+            
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM hoa");
+                        
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                String a = results.getString("hoa_name");
+                assets.add(a);
+            }
+            
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return assets;        
+        }
+        
+        connection.close();
+        return assets;   
     }
     
     public ArrayList<Assets> getAssetList() throws SQLException {

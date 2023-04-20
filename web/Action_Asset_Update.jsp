@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Delete_Asset
-    Created on : Apr 20, 2023, 2:53:20 PM
+    Document   : Action_Asset_Update
+    Created on : Apr 20, 2023, 5:22:51 PM
     Author     : thegr
 --%>
 
@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>New Asset Added to Table</title>
     </head>
     <body>
         <jsp:useBean id="aBean" class="tableControl.Assets" scope="session" />
@@ -20,11 +20,17 @@
                         
             aBean.acquisition_date = request.getParameter("acquisition_date");
             aBean.description = request.getParameter("asset_description");
-            aBean.id = aBean.getID();
+            aBean.id = Integer.parseInt(request.getParameter("asset_id"));
             aBean.name = request.getParameter("asset_name");
             aBean.value = Double.parseDouble(request.getParameter("asset_value"));
-            aBean.enclosing_asset = Integer.parseInt(request.getParameter("enclosing_asset"));
             
+            
+            if (request.getParameter("enclosing_asset") == null || request.getParameter("enclosing_asset").isBlank()) {
+                aBean.enclosing_asset = 0;
+                System.out.println(request.getParameter("enclosing_asset"));
+            } else {
+                aBean.enclosing_asset = Integer.parseInt(request.getParameter("enclosing_asset"));
+            }
             
             Boolean isChecked = false;
             if (request.getParameter("forrent") != null && request.getParameter("forrent").equals("on")){
@@ -37,9 +43,9 @@
             aBean.status = request.getParameter("status");
             aBean.type_asset = request.getParameter("type_asset");
             
-            aBean.recordAsset();
+            aBean.updateAsset();
         %>
-        <h1>Adding new Asset!</h1>
+        <h1>Asset Updated!</h1>
         Asset Info<br>
         Asset Id: <%=aBean.id%><br>
         Asset Name: <%=aBean.name%><br>
@@ -55,3 +61,4 @@
         Enclosing Asset: <%=aBean.enclosing_asset%><br>
     </body>
 </html>
+
