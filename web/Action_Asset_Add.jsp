@@ -41,23 +41,27 @@
             aBean.status = request.getParameter("status");
             aBean.type_asset = request.getParameter("type_asset");
             
-            aBean.recordAsset();
-        %>
-        <h1>Adding new Asset!</h1>
-        Asset Info<br>
-        Asset Id: <%=aBean.id%><br>
-        Asset Name: <%=aBean.name%><br>
-        Asset Description: <%=aBean.description%><br>
-        Date Acquired: <%=aBean.acquisition_date%><br>
-        For Rent: <%=aBean.forrent%><br>
-        Asset Value: <%=aBean.value%><br>
-        Asset Type: <%=aBean.type_asset%><br>
-        Status: <%=aBean.status%><br>
-        Latitude: <%=aBean.lattitude%><br>
-        Longitude: <%=aBean.longiture%><br>
-        HOA Name: <%=aBean.hoa_name%><br>
-        Enclosing Asset: <%=aBean.enclosing_asset%><br>
-        <button onclick="window.location.href='Asset_Register.jsp'">Register Another Asset?</button><br>
-        <button onclick="window.location.href='index.jsp'">Main menu</button><br>
+            if (aBean.enclosing_asset == aBean.id) { %>
+                <h1>Error, Enclosing Asset is itself!</h1>
+                <button onclick="window.location.href='Asset_Add.jsp'">Try Again?</button><br>
+            <%} else {
+                aBean.recordAsset(); %>
+                <h1>Adding new Asset!</h1>
+                Asset Info<br>
+                Asset Id: <%=aBean.id%><br>
+                Asset Name: <%=aBean.name%><br>
+                Asset Description: <%=aBean.description%><br>
+                Date Acquired: <%=aBean.acquisition_date%><br>
+                For Rent: <%=aBean.forrent%><br>
+                Asset Value: <%=aBean.value%><br>
+                Asset Type: <%=aBean.type_asset%><br>
+                Status: <%=aBean.status%><br>
+                Latitude: <%=aBean.lattitude%><br>
+                Longitude: <%=aBean.longiture%><br>
+                HOA Name: <%=aBean.hoa_name%><br>
+                Enclosing Asset: <%=aBean.enclosing_asset%><br>
+                <button onclick="window.location.href='Asset_Register.jsp'">Register Another Asset?</button><br>
+                <button onclick="window.location.href='index.jsp'">Main menu</button><br>            
+            <%}%>
     </body>
 </html>

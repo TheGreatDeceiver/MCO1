@@ -321,7 +321,7 @@ public class Assets {
             
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return assets;        
+            return assets;
         }
         
         connection.close();
@@ -341,10 +341,10 @@ public class Assets {
                 "AND NOT EXISTS (" +
                 "SELECT * FROM asset_rentals WHERE assets.asset_id = asset_rentals.asset_id) "  +
                 "AND NOT EXISTS (" +
-                "SELECT * FROM donated_assets WHERE assets.asset_id = donated_assets.asset_id) " + 
-                "AND NOT EXISTS (" +
-                "SELECT * FROM assets WHERE assets.asset_id = assets.enclosing_asset)"
+                "SELECT * FROM donated_assets WHERE assets.asset_id = donated_assets.asset_id) "
             );
+            
+            
                         
             ResultSet results = statement.executeQuery();
             
