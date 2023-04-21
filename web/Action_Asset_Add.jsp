@@ -57,7 +57,7 @@
         Longitude: <%=aBean.longiture%><br>
         HOA Name: <%=aBean.hoa_name%><br>
         Enclosing Asset: <%=aBean.enclosing_asset%><br>
-        <a href="Asset_Register.jsp">Register another asset?</a><br>
-        <a href="index.jsp">Back to menu</a><br>
+        <button onclick="window.location.href='Asset_Register.jsp'">Register Another Asset?</button><br>
+        <button onclick="window.location.href='index.jsp'">Main menu</button><br>
     </body>
 </html>

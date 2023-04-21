@@ -18,8 +18,7 @@
         <h1>Hello World!</h1>
         <%
             actBean.ornum = actBean.getNewORNumber();
-            actBean.act_end = request.getParameter("act_end");
-            actBean.act_start = request.getParameter("act_start");
+
             actBean.activity_date = request.getParameter("activity_date");
             actBean.activity_description = request.getParameter("activity_description");
             
@@ -28,28 +27,31 @@
             } else {
                 actBean.cost = Double.parseDouble(request.getParameter("cost"));
             }
-            
             actBean.id = Integer.parseInt(request.getParameter("asset_id"));
             actBean.status = request.getParameter("status");
             actBean.tent_end = request.getParameter("tent_end");
             actBean.tent_start = request.getParameter("tent_start");
             actBean.officer = Integer.parseInt(request.getParameter("officer"));
-            
-            actBean.addActivity();
+           
         %>
-        <h1>Adding new Asset Activity!</h1>
-        OR NUMBER REF: <%=actBean.ornum%><br>
-        Asset Activity Info<br>
-        Asset Id: <%=actBean.id%><br>
-        Activity Date <%=actBean.activity_date%><br>
-        Activity Description: <%=actBean.activity_description%><br>
-        Tentative Start: <%=actBean.tent_start%><br>
-        Tentative End: <%=actBean.tent_end%><br>
-        Actual Start: <%=actBean.act_start%><br>
-        Actual End: <%=actBean.act_end%><br>
-        Cost: <%=actBean.cost%><br>
-        Status: <%=actBean.status%><br>
-        <a href="Act_Record.jsp">Record another asset activity?</a><br>
-        <a href="index.jsp">Back to menu</a><br>
+        <%  if (actBean.addActivity() == 1) { %>
+            <h1>Adding new Asset Activity!</h1>
+            OR NUMBER REF: <%=actBean.ornum%><br>
+            Asset Activity Info<br>
+            Asset Id: <%=actBean.id%><br>
+            Activity Date <%=actBean.activity_date%><br>
+            Activity Description: <%=actBean.activity_description%><br>
+            Tentative Start: <%=actBean.tent_start%><br>
+            Tentative End: <%=actBean.tent_end%><br>
+            Actual Start: <%=actBean.act_start%><br>
+            Actual End: <%=actBean.act_end%><br>
+            Cost: <%=actBean.cost%><br>
+            Status: <%=actBean.status%><br>
+            <button onclick="window.location.href='Act_Record.jsp'">Record Again</button><br>
+            <button onclick="window.location.href='index.jsp'">Main menu</button><br>
+        <%} else {%>
+            <h1>Item has an activity on this date, please try again</h1>
+            <button onclick="window.location.href='Act_Record.jsp'">Try Again</button>
+        <%}%>
     </body>
 </html>

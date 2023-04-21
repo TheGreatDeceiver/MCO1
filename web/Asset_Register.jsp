@@ -43,8 +43,8 @@
                         <select name="type_asset" required>
                             <option value='P'>Property</option>
                             <option value='E'>Equipment</option>
-                            <option value='F'>Furniture</option>
-                            <option value='O'>Fixtures</option>
+                            <option value='F'>Furniture and Fixtures</option>
+                            <option value='O'>Others</option>
                         </select><br>
                         Asset Value: 
                         <input type="number" name="asset_value" id="asset_value" step="0.01" max="9999999.99" min="0.0" required><br>

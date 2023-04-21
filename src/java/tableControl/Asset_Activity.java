@@ -65,21 +65,40 @@ public class Asset_Activity {
             Asset_Trans trans = new Asset_Trans();
             connection = connect();
             
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM asset_activity WHERE asset_id = ? AND activity_date = ?");
+            statement.setInt(1, id);
+            statement.setString(2, activity_date);
+            ResultSet results = statement.executeQuery();
+            
+            if (results.next()) {
+                connection.close();
+                results.close();
+                return 0;
+            }
+            
+            results.close();
+            
             trans.id = id;
             trans.transaction_date = activity_date;
             trans.ornum = ornum;
             trans.setOfficer(officer, false);
             
-            
             trans.addTransaction();
             
-            
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO asset_activity VALUES (?,?,?,?,?,?,?,?,?)");
+            statement = connection.prepareStatement("INSERT INTO asset_activity VALUES (?,?,?,?,?,?,?,?,?)");
             statement.setInt(1, id);
             statement.setString(2, activity_date);
             statement.setString(3, activity_description);
-            statement.setNull(4, 0);
-            statement.setNull(5, 0);
+            if (tent_start.isBlank()) {
+                statement.setNull(4, 0);
+            } else {
+                statement.setString(4, tent_start);
+            }
+            if (tent_end.isBlank()) {
+                statement.setNull(5, 0);
+            } else {
+                statement.setString(5, tent_end);
+            }
             statement.setNull(6, 0);
             statement.setNull(7, 0);
             statement.setDouble(8, cost);
@@ -123,10 +142,10 @@ public class Asset_Activity {
             statement.setString(3,activity_description);
             statement.setDouble(4,cost);
             statement.setString(5, status);
-            statement.setString(6,tent_end);
-            statement.setString(7,tent_start);
-            statement.setString(8,act_end);
-            statement.setString(9,act_start);
+            statement.setString(6,tent_end.isBlank() ? null : tent_end);
+            statement.setString(7,tent_start.isBlank() ? null : tent_start);
+            statement.setString(8,act_end.isBlank() ? null : act_end);
+            statement.setString(9,act_start.isBlank() ? null : act_start);
             statement.setInt(10,id);
             statement.setString(11,activity_date);
             

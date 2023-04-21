@@ -51,7 +51,7 @@
         Actual End: <%=actBean.act_end%><br>
         Cost: <%=actBean.cost%><br>
         Status: <%=actBean.status%><br>
-        <a href="Act_Update.jsp">Update another asset activity?</a><br>
-        <a href="index.jsp">Back to menu</a><br>
+        <button onclick="window.location.href='Act_Update.jsp'">Update Another?</button><br>
+        <button onclick="window.location.href='index.jsp'">Main menu</button><br>
     </body>
 </html>

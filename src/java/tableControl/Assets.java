@@ -144,20 +144,19 @@ public class Assets {
         try {
             connection = connect();
             
-            PreparedStatement statement = connection.prepareStatement("SELECT enclosing_asset FROM assets WHERE asset_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM assets WHERE enclosing_asset = ?");
             
             statement.setInt(1, id);
             ResultSet results = statement.executeQuery();
             
             //Updates all other assets upon removal of an asset 
             while (results.next()) {
+                Integer local_id = results.getInt("asset_id");
                 enclosing_asset = results.getInt("enclosing_asset");
-                if (enclosing_asset != null || enclosing_asset <= 0) {
-                    statement = connection.prepareStatement("UPDATE assets SET enclosing_asset = ? WHERE asset_id = ?");
-                    statement.setNull(1, enclosing_asset);
-                    statement.setInt(2, id);
-                    statement.executeUpdate();
-                }            
+                statement = connection.prepareStatement("UPDATE assets SET enclosing_asset = ? WHERE asset_id = ?");
+                statement.setNull(1, enclosing_asset);
+                statement.setInt(2, local_id);
+                statement.executeUpdate();
             }
             //End
             
@@ -165,6 +164,7 @@ public class Assets {
             statement.setInt(1, id);
             
             statement.executeUpdate();
+            
             statement.close();
         } catch (SQLException e) {
             System.out.println("deleting failed");
@@ -339,7 +339,11 @@ public class Assets {
                 "WHERE NOT EXISTS (" +
                 "SELECT * FROM asset_activity WHERE assets.asset_id = asset_activity.asset_id) " +
                 "AND NOT EXISTS (" +
-                "SELECT * FROM asset_rentals WHERE assets.asset_id = asset_rentals.asset_id)"    
+                "SELECT * FROM asset_rentals WHERE assets.asset_id = asset_rentals.asset_id) "  +
+                "AND NOT EXISTS (" +
+                "SELECT * FROM donated_assets WHERE assets.asset_id = donated_assets.asset_id) " + 
+                "AND NOT EXISTS (" +
+                "SELECT * FROM assets WHERE assets.asset_id = assets.enclosing_asset)"
             );
                         
             ResultSet results = statement.executeQuery();

@@ -18,7 +18,7 @@
             aBean.disposeAsset();
         %>
         <h1>Asset Disposed!</h1>
-        <a href="Asset_Dispose.jsp">Dispose of another asset?</a><br>
-        <a href="index.jsp">Back to menu</a><br>
+        <button onclick="window.location.href='Asset_Dispose.jsp'">Dispose of Another Asset?</button><br>
+        <button onclick="window.location.href='index.jsp'">Main menu</button><br>
     </body>
 </html>

@@ -24,7 +24,7 @@
                         
             actBean.completeActivity();
         %>
-        <a href="Act_Complete.jsp">Complete another asset activity?</a><br>
-        <a href="index.jsp">Back to menu</a><br>
+        <button onclick="window.location.href='Act_Complete.jsp'">Complete Another Activity?</button><br>
+        <button onclick="window.location.href='index.jsp'">Main menu</button><br>
     </body>
 </html>

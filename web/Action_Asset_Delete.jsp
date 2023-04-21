@@ -18,7 +18,7 @@
             aBean.destroyAsset();
         %>
         <h1>Asset Deleted!</h1>
-        <a href="Asset_Delete.jsp">Delete another asset?</a><br>
-        <a href="index.jsp">Back to menu</a><br>
+        <button onclick="window.location.href='Asset_Delete.jsp'">Delete Another Asset?</button><br>
+        <button onclick="window.location.href='index.jsp'">Main menu</button><br>
     </body>
 </html>
