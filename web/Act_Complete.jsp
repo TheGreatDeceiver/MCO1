@@ -23,7 +23,7 @@
             <a href ="Asset_Dispose.jsp" style="text-align: center;">    Dispose an Asset</a><br>
             <a href ="Act_Record.jsp" style="text-align: center;">    Record Asset Activity</a><br>
             <a href ="Act_Update.jsp" style="text-align: center;">    Update Asset Activity Information</a><br>
-            <a>    Complete Asset Activity</a><br>
+            <a style="text-align: center;">    Complete Asset Activity</a><br>
             <a href ="Act_Delete.jsp" style="text-align: center;">    Delete Asset Activity</a><br>
         </div>
         <h2 style="text-align: center;">Complete Activity</h2>

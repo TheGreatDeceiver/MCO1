@@ -24,7 +24,7 @@
             <a href ="Act_Record.jsp" style="text-align: center;">    Record Asset Activity</a><br>
             <a href ="Act_Update.jsp" style="text-align: center;">    Update Asset Activity Information</a><br>
             <a href ="Act_Complete.jsp" style="text-align: center;">    Complete Asset Activity</a><br>
-            <a>    Delete Asset Activity</a><br>
+            <a style="text-align: center;">    Delete Asset Activity</a><br>
         </div>
         <h2 style="text-align: center;">Delete Activity</h2>
         <form name="Asset Info" action="Action_Activity_Delete.jsp" method="POST" style="text-align: center">
