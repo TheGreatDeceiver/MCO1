@@ -179,7 +179,7 @@ public class Asset_Activity {
         return 1;    
     }
     
-    public int deleteActivity(Boolean presidentApproval) throws SQLException {
+    public int deleteActivity() throws SQLException {
         try {
             connection = connect();
             PreparedStatement statement = connection.prepareStatement("UPDATE asset_transactions SET isdeleted = 1 WHERE asset_id = ? AND transaction_date = ?");

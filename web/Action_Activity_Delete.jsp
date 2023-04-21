@@ -22,17 +22,10 @@
             String value2 = values[1];
             actBean.id = Integer.parseInt(value1);
             actBean.activity_date = value2;
-                        
-            Boolean permission = Boolean.parseBoolean(request.getParameter("permission"));
-            
-            actBean.deleteActivity(permission);
+                                    
+            actBean.deleteActivity();
         %>
-        
-        <%if (permission) {%>
-            <h1>Asset Activity Deleted!!! (With President's Permission)</h1>
-        <%} else {%>
-            <h1>Asset Activity Deletion Denied!! (Requires President's Permission)</h1>
-        <%}%>
+        <h1>Asset Activity Deleted!!! (With President's Permission)</h1>
         <button onclick="window.location.href='Act_Delete.jsp'">Delete Again</button><br>
         <button onclick="window.location.href='index.jsp'">Main menu</button><br>
     </body>

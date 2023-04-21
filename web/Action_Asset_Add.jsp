@@ -42,7 +42,7 @@
             aBean.type_asset = request.getParameter("type_asset");
             
             %>
-            <% if (aBean.enclosing_asset == aBean.id) { %>
+            <% if (Objects.equals(aBean.enclosing_asset, aBean.id)) { %>
                 <h1>Error, Enclosing Asset is itself!</h1>
                 <button onclick="window.location.href='Asset_Add.jsp'">Try Again?</button><br>
             <%} else {
