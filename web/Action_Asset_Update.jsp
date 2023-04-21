@@ -43,12 +43,16 @@
             
             aBean.updateAsset();
 
-            if (aBean.enclosing_asset == aBean.id) { %>
+            System.out.println(aBean.enclosing_asset + " == " + aBean.id);
+            System.out.println(aBean.enclosing_asset == aBean.id);
+            
+            %>
+            <% if (aBean.enclosing_asset == aBean.id) { %>
                 <h1>Error, Enclosing Asset is itself!</h1>
                 <button onclick="window.location.href='Asset_Update.jsp'">Try Again?</button><br>
             <%} else {
                 aBean.updateAsset(); %>
-                <h1>Adding new Asset!</h1>
+                <h1>Updating old Asset!</h1>
                 Asset Info<br>
                 Asset Id: <%=aBean.id%><br>
                 Asset Name: <%=aBean.name%><br>
