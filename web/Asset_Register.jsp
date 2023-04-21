@@ -32,9 +32,9 @@
                 <div style="border: 1px solid black; padding: 20px;">
                     <div style="text-align: left;">
                         Asset Name: 
-                        <input type="text" name="asset_name" id="asset_name" required><br>
+                        <input type="text" name="asset_name" id="asset_name" maxlength="45" required><br>
                         Asset Description: 
-                        <input type="text" name="asset_description" id="asset_description" required><br>
+                        <input type="text" name="asset_description" id="asset_description" maxlength="45" required><br>
                         Acquisition Date: 
                         <input type="date" name="acquisition_date" id="acquisition_date" required><br>
                         For Rent: 

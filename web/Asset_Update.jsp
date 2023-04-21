@@ -38,9 +38,9 @@
                             <% } %>
                         </select><br>
                         New Asset Name: 
-                        <input type="text" name="asset_name" id="asset_name" required><br>
+                        <input type="text" name="asset_name" id="asset_name" maxlength="45" required><br>
                         New Asset Description: 
-                        <input type="text" name="asset_description" id="asset_description" required><br>
+                        <input type="text" name="asset_description" id="asset_description" maxlength="45" required><br>
                         New Acquisition Date: 
                         <input type="date" name="acquisition_date" id="acquisition_date" required><br>
                         New For Rent: 

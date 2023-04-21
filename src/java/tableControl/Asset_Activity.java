@@ -88,7 +88,7 @@ public class Asset_Activity {
             statement = connection.prepareStatement("INSERT INTO asset_activity VALUES (?,?,?,?,?,?,?,?,?)");
             statement.setInt(1, id);
             statement.setString(2, activity_date);
-            statement.setString(3, activity_description);
+            statement.setString(3, activity_description.isBlank() ? null : activity_description);
             if (tent_start.isBlank()) {
                 statement.setNull(4, 0);
             } else {
@@ -139,7 +139,7 @@ public class Asset_Activity {
             
             statement.setString(1,act_end);
             statement.setString(2,act_start);
-            statement.setString(3,activity_description);
+            statement.setString(3,activity_description.isBlank() ? null : activity_description);
             statement.setDouble(4,cost);
             statement.setString(5, status);
             statement.setString(6,tent_end.isBlank() ? null : tent_end);

@@ -32,6 +32,7 @@
         <form name="Asset Info" action="Action_Activity_Add.jsp" method="POST" style="text-align: center">
             <div style="display: flex; justify-content: center;">
                 <div style="border: 1px solid black; padding: 20px;">
+                    <h3> OR #: <%=actBean.getNewORNumber()%> </h3>
                     <div style="text-align: left;">
                         Asset ID :
                         <select name="asset_id" id="asset_id"> 
@@ -48,7 +49,7 @@
                         Activity Date: 
                         <input type="date" name="activity_date" id="activity_date" required><br>
                         Activity Description: 
-                        <input type="text" name="activity_description" id="activity_description"><br>
+                        <input type="text" name="activity_description" id="activity_description" maxlength="45"><br>
                         Tentative Start: 
                         <input type="date" name="tent_start" id="tent_start">
                         Tentative End: 
